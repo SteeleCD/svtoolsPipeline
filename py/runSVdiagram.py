@@ -19,7 +19,7 @@ fusions = sv_data.get_fusions(fusion_file, chrom)
 # sv diagram
 sv_diagram.plot_sv_diagram(
     x, cn, fusions,
-    outfile = outfile,
+    outfile = outFile,
     # The arguments below are optional:
     xlabel = "position (Mb)",
     logbase = 4,

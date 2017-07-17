@@ -6,6 +6,8 @@ fusion_file=args[1]
 chrom=args[2]
 outDir=args[3]
 
+from sv_tools import sv_data, kc_tests
+
 # read fusions
 fusions = sv_data.get_fusions(fusion_file, chrom)
 
