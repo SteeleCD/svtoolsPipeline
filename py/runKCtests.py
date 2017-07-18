@@ -25,9 +25,8 @@ kc_tests.test_E1(
             fusions,
             outDir+"kcE1.png"
             )
-# F - not sure how to get walk
+# F - not sure how to define walk from data (made of H/T combinations)
 #kc_tests.F_walk(
-#            fusions#,
-#            #outDir+"kcF.png"
+#            "HTHTTHTHTH"
 #            )
 
