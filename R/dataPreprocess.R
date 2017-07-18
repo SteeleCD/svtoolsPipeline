@@ -1,3 +1,13 @@
+#!/usr/bin/env Rscript
+# get command line arguments
+args = commandArgs(trailingOnly=TRUE)
+segFile=args[1]
+bedpeFile=args[2]
+sample=args[3]
+outDir=args[4]
+outSeg=args[5]
+outBedpe=args[6]
+
 # read in a file
 readFile = function(file,head=TRUE)
 	{
@@ -25,14 +35,15 @@ splitSeg = function(seg,sampleCol,chromCol,startCol,endCol,CNcol,windowSize=5000
 						seg[i,CNcol]))
 	outSeg = do.call(rbind,outSeg)
 	return(outSeg)
-	}
+}
 
 # preprocess data for SV tools
-preprocessSVtools = function(segFile,bedpeFile,sample,outDir=".",outSeg="testSeg.txt",outBedpe="testBedpe.txt",
+preprocessSVtools = function(segFile,bedpeFile,sample,outDir=".",
+  outSeg="testSeg.txt",outBedpe="testBedpe.txt",
 	segSampleCol=1,segChromCol=2,segStartCol=3,segEndCol=4,segCNcol=5,
 	bedpeChromCol1=2,bedpePosCol1=4,bedpeStrandCol1=3,
 	bedpeChromCol2=5,bedpePosCol2=7,bedpeStrandCol2=6,
-	bedpeReadsCol=NULL,bedpeSampleCol=NULL,segHead=TRUE,bedpeHead=TRUE
+	bedpeReadsCol=NULL,bedpeSampleCol=1,segHead=TRUE,bedpeHead=TRUE
 	)
 	{
 	# seg file
@@ -63,4 +74,8 @@ preprocessSVtools = function(segFile,bedpeFile,sample,outDir=".",outSeg="testSeg
 			reads,0)
 	colnames(bedpe) = c("chrom1","pos1","strand1","chrom2","pos2","strand2","reads","gap")
 	write.table(bedpe,paste0(outDir,"/",outBedpe),col.names=TRUE,row.names=FALSE,quote=FALSE,sep="\t")
-	}
+  }
+
+# run preprocessing
+preprocessSVtools(segFile,bedpeFile,sample,outDir,
+                outSeg,outBedpe)
