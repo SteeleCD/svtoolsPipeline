@@ -7,14 +7,31 @@ sample=args[3]
 outDir=args[4]
 outSeg=args[5]
 outBedpe=args[6]
+if(length(args)>6)
+	{
+	segSampleCol=as.numeric(args[7])
+	segChromCol=as.numeric(args[8])
+	segStartCol=as.numeric(args[9])
+	segEndCol=as.numeric(args[10])
+	segCNcol=as.numeric(args[11])
+	bedpeSampleCol=as.numeric(args[12])
+	bedpeChromCol1=as.numeric(args[13])
+	bedpePosCol1=as.numeric(args[14])
+	bedpeStrandCol1=as.numeric(args[15])
+	bedpeChromCol2=as.numeric(args[16])
+	bedpePosCol2=as.numeric(args[17])
+	bedpeStrandCol2=as.numeric(args[18])
+	segHead=as.logical(as.numeric(args[19]))
+	bedpeHead=as.logical(as.numeric(args[20]))
+	}
 
 # read in a file
 readFile = function(file,head=TRUE)
 	{
 	ending = rev(strsplit(file,split="[.]")[[1]])[1]
 	if(ending=="csv") return(read.csv(file,head=head))
-	if(ending%in%c("txt","tsv")) return(read.table(file,sep="\t",head=head))
-	return(read.table(file,sep="\t",head=head))	
+	if(ending%in%c("txt","tsv")) return(read.table(file,sep="\t",head=head,as.is=TRUE))
+	return(read.table(file,sep="\t",head=head,as.is=TRUE))	
 	}
 
 # split seg file
@@ -55,12 +72,12 @@ preprocessSVtools = function(segFile,bedpeFile,sample,outDir=".",
 		}
 	seg = splitSeg(seg,sampleCol=segSampleCol,chromCol=segChromCol,
 			startCol=segStartCol,endCol=segEndCol,CNcol=segCNcol)
-	seg = cbind(seg[,c(segChromCol,segStartCol,segEndCol)],".",seg[,segCNcol])
+	seg = cbind(seg[,2:4],".",seg[,5])
 	write.table(seg,paste0(outDir,"/",outSeg),col.names=FALSE,row.names=FALSE,quote=FALSE,sep="\t")
 	# bedpefile
 	bedpe = readFile(bedpeFile,head=bedpeHead)
 	if(!is.null(bedpeSampleCol)) bedpe = bedpe[which(bedpe[,bedpeSampleCol]==sample),,drop=FALSE]
-	if(!any(grepl("chr",seg[,bedpeChromCol1])))
+	if(!any(grepl("chr",bedpe[,bedpeChromCol1])))
 		{
 		bedpe[,bedpeChromCol1]=paste0("chr",bedpe[,bedpeChromCol1])
 		bedpe[,bedpeChromCol2]=paste0("chr",bedpe[,bedpeChromCol2])
@@ -78,4 +95,40 @@ preprocessSVtools = function(segFile,bedpeFile,sample,outDir=".",
 
 # run preprocessing
 preprocessSVtools(segFile,bedpeFile,sample,outDir,
-                outSeg,outBedpe)
+                outSeg,outBedpe,
+		segSampleCol=segSampleCol,
+		segChromCol=segChromCol,
+		segStartCol=segStartCol,
+		segEndCol=segEndCol,
+		segCNcol=segCNcol,
+		bedpeSampleCol=bedpeSampleCol,
+		bedpeChromCol1=bedpeChromCol1,
+		bedpePosCol1=bedpePosCol1,
+		bedpeStrandCol1=bedpeStrandCol1,
+		bedpeChromCol2=bedpeChromCol2,
+		bedpePosCol2=bedpePosCol2,
+		bedpeStrandCol2,
+		segHead=segHead,
+		bedpeHead=bedpeHead)
+
+
+#segFile=segFile
+#bedpeFile=bedpeFile
+#sample=sample
+#outDir=outDir
+#outSeg=outSeg
+#outBedpe=outBedpe
+#		segSampleCol=segSampleCol
+#		segChromCol=segChromCol
+#		segStartCol=segStartCol
+#		segEndCol=segEndCol
+#		segCNcol=segCNcol
+#		bedpeSampleCol=bedpeSampleCol
+#		bedpeChromCol1=bedpeChromCol1
+#		bedpePosCol1=bedpePosCol1
+#		bedpeStrandCol1=bedpeStrandCol1
+#		bedpeChromCol2=bedpeChromCol2
+#		bedpePosCol2=bedpePosCol2
+#		bedpeStrandCol2
+#		segHead=segHead
+#		bedpeHead=bedpeHead
