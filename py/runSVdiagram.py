@@ -6,6 +6,7 @@ cn_file = args[1]
 fusion_file=args[2]
 chrom=args[3]
 outFile=args[4]
+sample=args[5]
 
 if chrom=="chrX":
     vert = [77]
@@ -41,6 +42,7 @@ sv_diagram.plot_sv_diagram(
     yticks = [1,4,16,64],
     vert=vert,
     genes=gene,
-    chrom=chrom
+    chrom=chrom,
+    sample
     )
 

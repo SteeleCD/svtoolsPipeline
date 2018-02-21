@@ -26,7 +26,8 @@ python $pythonDir/runSVdiagram.py \
 	$outDir/$outSeg \
 	$outDir/$outBedpe \
 	$chrom \
-	$outDir/$sample"-"$chrom"-SVdiagram.pdf"
+	$outDir/$sample"-"$chrom"-SVdiagram.pdf" \
+	$sample
 	
 # KC tests
 python $pythonDir/runKCtests.py \
