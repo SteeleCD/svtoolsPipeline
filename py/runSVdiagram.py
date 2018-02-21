@@ -34,15 +34,15 @@ fusions = sv_data.get_fusions(fusion_file, chrom)
 sv_diagram.plot_sv_diagram(
     x, cn, fusions,
     outfile = outFile,
+    vert=vert,
+    genes=gene,
+    chrom=chrom,
+    sample=sample,
     # The arguments below are optional:
     xlabel = "position (Mb)",
     logbase = 4,
     ymin = 0.5,
     ymax = 200,
-    yticks = [1,4,16,64],
-    vert=vert,
-    genes=gene,
-    chrom=chrom,
-    sample
+    yticks = [1,4,16,64]
     )
 
